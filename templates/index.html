@@ -1,0 +1,51 @@
+{% extends 'wrapper.html' %}
+
+{% block js_file %}
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}
+
+
+{% block main %}
+     <div class="header">
+        <h1>InstaDownloader</h1>
+    </div>
+    <div class="selector">
+        <button value="asd" id="btn_load_post">Загрузить пост</button>
+        <button value="asd" id="btn_load_profile">Загрузить фотографии профиля</button>
+        <div class="load_post" id="div_load_post">
+            post
+            <form name="load_post" method="post" action="/find_post">
+                <p><b>Введите ссылку на пост</b><br>
+                    <label>
+                        <input name="post_link" type="text" size="40">
+                    </label>
+                </p>
+                <p>
+                    <input type="submit" value="Отправить">
+                    <input type="reset" value="Очистить">
+                </p>
+            </form>
+        </div>
+        <div class="load_profile" id="div_load_profile" style="visibility: hidden">
+            profile
+
+            <form name="load_profile" method="post" action="/find_profile">
+                <p><b>Введите ссылку на профиль</b><br>
+                    <label>
+                        <input name="profile_link" type="text" size="40">
+                    </label>
+                </p>
+                <p>
+                    <input type="submit" value="Отправить">
+                    <input type="reset" value="Очистить">
+                </p>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="content_load" style="visibility: hidden">
+        content
+    </div>
+{% endblock %}
+
