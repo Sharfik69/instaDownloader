@@ -18,16 +18,18 @@
             <button id="send_post_link">Отправить</button>
 
         </div>
-        <div class="load_profile" id="div_load_profile" style="visibility: hidden">
-            profile
+        <div class="load_profile" id="div_load_profile">
+
+            <label for="post_link"></label><input id="profile_link" name="profile_link" type="text" size="40" placeholder="instagram.com/userName/">
+            <button id="send_profile_link">Отправить</button>
 
         </div>
     </div>
 
-    <div class="content_load">
-        <div class="loading">
+    <div class="loading">
             <img src="{{ url_for('static', filename='svg-loaders/grid.svg') }}" />
-        </div>
+    </div>
+    <div class="content_load">
         <p id="user_name"></p>
         <img class="user_img" src="" alt="img">
         <div class="user_photos"></div>
