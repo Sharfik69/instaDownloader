@@ -1,4 +1,7 @@
 $(document).ready(function(){
+
+    let imgs = []
+
     $('#btn_load_post').click(function(){
         $('#div_load_post').show();
         $('#div_load_profile').hide();
@@ -26,14 +29,14 @@ $(document).ready(function(){
 })
 
 function put_data(data) {
-    user_name = data['user_name'];
-    user_photo = data['user_pic'];
-    user_photos = data['img_list'];
+    user_name = data['owner']['username'];
+    user_photo = data['owner']['profile_pic_url'];
+    imgs = data['img'];
     $('#user_name').text(user_name)
     $(".user_img").attr("src", user_photo);
     $( ".user_photos" ).empty();
-    for (let i = 0; i < user_photos.length; i++) {
-        $( ".user_photos" ).append( "<img class='photo' src='" + user_photos[i] + "'/>" );
+    for (let i = 0; i < imgs.length; i++) {
+        $( ".user_photos" ).append( "<img class='photo' id='" + i + "' src='" + imgs[i][0]['src'] + "'/>" );
     }
 
     $('.content_load').show();

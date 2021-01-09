@@ -12,7 +12,3 @@ body{
 .user_img{
     border-radius: 100%;
 }
-
-.content_load {
-    visibility: hidden;
-}

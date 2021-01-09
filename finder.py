@@ -2,7 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
-import instaloader
+from instaloader import Instaloader, Post
+import re
+import shutil
+import glob
+import json
+import os
 
 def get_post(link):
 
@@ -26,8 +31,41 @@ def get_post(link):
 
 
 def get_post_2(link):
-    instaloader.instaloader()
+    if link.endswith('/'): link = link[:-1]
+    if re.search(r"instagram.com/p/[a-zA-Z0-9_]{1,}", link):
+        short_code = link.split('/')[-1]
+    else:
+        return {'error': True}
+
+
+    L = Instaloader()
+    post = Post.from_shortcode(L.context, short_code)
+
+    L.download_post(post, target=short_code)
+
+    super_json = glob.glob(short_code + '/*.json.xz')[0]
+    try:
+        import lzma
+    except ImportError:
+        from backports import lzma
+
+    response = {}
+    super_dict = json.loads(lzma.open(super_json).read())
+
+    if 'edge_sidecar_to_children' in super_dict['node']:
+        response['img'] = []
+        for i in super_dict['node']['edge_sidecar_to_children']['edges']:
+            response['img'].append(i['node']['display_resources'])
+    else:
+        response['img'] = super_dict['node']['display_resources']
+
+    response['owner'] = super_dict['node']['owner']
+    shutil.rmtree(short_code)
+    return response
 
 # get_post('https://www.instagram.com/p/CCOHPEcHplS/')
 
 # get_post('https://www.instagram.com/p/CJbPG_iHXjJ/')
+
+# a = get_post_2('https://www.instagram.com/p/CJbPG_iHXjJ/')
+# print(a)

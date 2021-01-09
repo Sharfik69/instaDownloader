@@ -1,7 +1,7 @@
 import json
 
 from flask import Flask, render_template, request, jsonify
-from finder import get_post
+from finder import get_post, get_post_2
 
 app = Flask(__name__)
 
@@ -16,7 +16,8 @@ def find_post_by_link():
         return 'error'
     link = request.data.decode("utf-8")
 
-    info = get_post(link)
+    info = get_post_2(link)
+    print(json.dumps(info))
     return json.dumps(info)
 
 
