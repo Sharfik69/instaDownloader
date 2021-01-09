@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request
+import json
 
+from flask import Flask, render_template, request, jsonify
+from finder import get_post
 
 app = Flask(__name__)
 
@@ -12,10 +14,10 @@ def index():
 def find_post_by_link():
     if request.method != 'POST':
         return 'error'
-    link = request.form['post_link']
-    print(link)
-    #TODO: search alg
-    return 'post ok'
+    link = request.data.decode("utf-8")
+
+    info = get_post(link)
+    return json.dumps(info)
 
 
 @app.route('/find_profile', methods=['POST'])
