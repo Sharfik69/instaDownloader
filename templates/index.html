@@ -13,9 +13,8 @@
         <button value="asd" id="btn_load_post">Загрузить пост</button>
         <button value="asd" id="btn_load_profile">Загрузить фотографии профиля</button>
         <div class="load_post" id="div_load_post">
-            post
 
-            <label for="post_link"></label><input id="post_link" name="post_link" type="text" size="40">
+            <label for="post_link"></label><input id="post_link" name="post_link" type="text" size="40" placeholder="instagram.com/p/kFDu3e2S/">
             <button id="send_post_link">Отправить</button>
 
         </div>
@@ -26,7 +25,9 @@
     </div>
 
     <div class="content_load">
-        content
+        <div class="loading">
+            <img src="{{ url_for('static', filename='svg-loaders/grid.svg') }}" />
+        </div>
         <p id="user_name"></p>
         <img class="user_img" src="" alt="img">
         <div class="user_photos"></div>

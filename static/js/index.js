@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     let imgs = []
-
+    $('.loading').hide();
     $('#btn_load_post').click(function(){
         $('#div_load_post').show();
         $('#div_load_profile').hide();
@@ -14,6 +14,7 @@ $(document).ready(function(){
 
 
     $("#send_post_link").click(function(){
+        $('.loading').show();
         $.ajax('/find_post', {
                 type: 'POST',
                 data: $('#post_link').val(),
@@ -23,6 +24,9 @@ $(document).ready(function(){
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     alert(errorThrown);
+                },
+                complete: function(){
+                    $('.loading').hide();
                 }
             });
     });
