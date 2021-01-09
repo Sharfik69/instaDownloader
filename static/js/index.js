@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
-    let imgs = []
+    let imgs = [];
+    let imgs_user = [];
     $('.loading').hide();
     $('#div_load_profile').hide();
     $('.content_load').hide();
@@ -24,7 +25,7 @@ $(document).ready(function(){
                 data: $('#post_link').val(),
                 contentType: 'application/json',
                 success: function(data, textStatus, jqXHR){
-                    put_data(JSON.parse(data));
+                    put_data_post(JSON.parse(data));
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     alert(errorThrown);
@@ -44,7 +45,7 @@ $(document).ready(function(){
                 data: $('#profile_link').val(),
                 contentType: 'application/json',
                 success: function(data, textStatus, jqXHR){
-                    alert(JSON.parse(data)['status']);
+                    put_data_user(JSON.parse(data));
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     alert(errorThrown);
@@ -57,7 +58,7 @@ $(document).ready(function(){
 
 })
 
-function put_data(data) {
+function put_data_post(data) {
     set_empty();
     user_name = data['owner']['username'];
     user_photo = data['owner']['profile_pic_url'];
@@ -68,6 +69,20 @@ function put_data(data) {
         $( ".user_photos" ).append( "<img class='photo' id='" + i + "' src='" + imgs[i][0]['src'] + "'/>" );
     }
 
+    $('.content_load').show();
+}
+
+function put_data_user(data) {
+//    console.log(data);
+    set_empty();
+    user_name = data['owner']['username'];
+    user_photo = data['owner']['profile_pic_url'];
+    $('#user_name').text(user_name);
+    $(".user_img").attr("src", user_photo);
+    imgs_user = data['list'];
+    for (let i = 0; i < imgs_user.length; i++) {
+        $( ".user_photos" ).append( "<img class='photo' id='" + imgs_user[i]['code'] + "' src='" + imgs_user[i]['img'] + "'/>" );
+    }
     $('.content_load').show();
 }
 

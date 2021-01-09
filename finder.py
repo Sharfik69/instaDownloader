@@ -47,6 +47,7 @@ def get_posts_by_username(username, size = (0, 50)):
 
     response_ans = []
     posts_list = list(profile.get_posts())
+    owner = None
     for post in posts_list[size[0] : size[1]]:
         L.download_post(post, target=profile.username)
         with open(glob.glob(profile.username + "/*.json")[0]) as json_file:
@@ -54,13 +55,14 @@ def get_posts_by_username(username, size = (0, 50)):
             post_info = {}
             post_info['code'] = super_dict['node']['shortcode']
             post_info['img'] = super_dict['node']['display_url']
+            owner = super_dict['node']['owner']
             response_ans.append(post_info)
         shutil.rmtree(profile.username)
 
-    return response_ans
+    return {'list': response_ans, 'status': 'ok', 'owner': owner}
 
-a = get_posts_by_username('who.is.irina')
-print(a)
+# a = get_posts_by_username('who.is.irina')
+# print(a)
 
 # get_post('https://www.instagram.com/p/CCOHPEcHplS/')
 
