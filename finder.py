@@ -1,4 +1,4 @@
-from instaloader import Instaloader, Post
+from instaloader import Instaloader, Post, Profile
 import re
 import shutil
 import glob
@@ -13,7 +13,7 @@ def get_post_2(link):
         return {'error': True}
 
 
-    L = Instaloader(download_pictures=False, download_comments=False, compress_json=False)
+    L = Instaloader(download_pictures=False, download_comments=False, compress_json=False, download_videos=True)
     post = Post.from_shortcode(L.context, short_code)
 
     L.download_post(post, target=short_code)
@@ -31,8 +31,36 @@ def get_post_2(link):
         response['img'] = [super_dict['node']['display_resources']]
 
     response['owner'] = super_dict['node']['owner']
+    response['status'] = 'ok'
     shutil.rmtree(short_code)
     return response
+
+
+def get_posts_by_username(username, size = (0, 50)):
+    L = Instaloader(download_pictures=False, download_comments=False,
+                    compress_json=False, download_videos=False,
+                    download_geotags=False)
+    try:
+        profile = Profile.from_username(L.context, username)
+    except Exception:
+        return {'status': 'bad'}
+
+    response_ans = []
+    posts_list = list(profile.get_posts())
+    for post in posts_list[size[0] : size[1]]:
+        L.download_post(post, target=profile.username)
+        with open(glob.glob(profile.username + "/*.json")[0]) as json_file:
+            super_dict = json.load(json_file)
+            post_info = {}
+            post_info['code'] = super_dict['node']['shortcode']
+            post_info['img'] = super_dict['node']['display_url']
+            response_ans.append(post_info)
+        shutil.rmtree(profile.username)
+
+    return response_ans
+
+a = get_posts_by_username('who.is.irina')
+print(a)
 
 # get_post('https://www.instagram.com/p/CCOHPEcHplS/')
 
