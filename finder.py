@@ -31,9 +31,9 @@ def get_post(link):
 
 
 def get_post_2(link):
-    if link.endswith('/'): link = link[:-1]
-    if re.search(r"instagram.com/p/[a-zA-Z0-9_]{1,}", link):
-        short_code = link.split('/')[-1]
+    m = re.search(r"instagram.com/p/[a-zA-Z0-9_]{1,}", link)
+    if m:
+        short_code = m.group().split('/')[-1]
     else:
         return {'error': True}
 
