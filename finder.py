@@ -14,8 +14,10 @@ def get_post_2(link):
 
 
     L = Instaloader(download_pictures=False, download_comments=False, compress_json=False, download_videos=True)
-    post = Post.from_shortcode(L.context, short_code)
-
+    try:
+        post = Post.from_shortcode(L.context, short_code)
+    except Exception:
+        return {'status': 'bad'}
     L.download_post(post, target=short_code)
 
     super_json = glob.glob(short_code + '/*.json')[0]

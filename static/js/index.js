@@ -7,6 +7,12 @@ $(document).ready(function(){
     $('.content_load').hide();
 
 
+
+
+    $( "#opener" ).on( "click", function() {
+        $( "#dialog" ).dialog( "open" );
+    });
+
     $('#btn_load_post').click(function(){
         $('#btn_profile').removeClass('active');
         $('#btn_post').addClass('active');
@@ -24,7 +30,6 @@ $(document).ready(function(){
 
 
     $("#send_post_link").click(function(){
-
         $('.content_load').hide();
         $('.loading').show();
         $.ajax('/find_post', {
@@ -32,7 +37,13 @@ $(document).ready(function(){
                 data: $('#post_link').val(),
                 contentType: 'application/json',
                 success: function(data, textStatus, jqXHR){
-                    put_data_post(JSON.parse(data));
+                    response = JSON.parse(data);
+                    if (response['status'] === 'ok') {
+                        put_data_post(response);
+                    }
+                    else {
+                        alert('Не удалось найти пост');
+                    }
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     alert(errorThrown);
@@ -52,7 +63,13 @@ $(document).ready(function(){
                 data: $('#profile_link').val(),
                 contentType: 'application/json',
                 success: function(data, textStatus, jqXHR){
-                    put_data_user(JSON.parse(data));
+                    response = JSON.parse(data);
+                    if (response['status'] === 'ok') {
+                        put_data_user(response);
+                    }
+                    else {
+                        alert('Такого пользователя нет');
+                    }
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     alert(errorThrown);
@@ -62,8 +79,17 @@ $(document).ready(function(){
                 }
             });
     });
+    $(".download").click(function(){
+        download(imgs[$(this).val()][2]['src']);
+    });
+});
 
-})
+function download(url) {
+    let link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'download.png');
+    link.click();
+}
 
 function put_data_post(data) {
     set_empty();
@@ -85,7 +111,7 @@ function put_data_post(data) {
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
+                      <button type="button" onclick="download_post_photo(${i})" class="btn btn-sm btn-outline-secondary download" value="${i}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5zM8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6z"/>
 </svg></button>
                       <button type="button" class="btn btn-sm btn-outline-secondary">Открыть</button>
@@ -144,4 +170,33 @@ function set_empty() {
     $('#user_name').text('');
     $(".user_img").attr("src", '');
     $( ".user_photos" ).empty();
+}
+
+function download_post_photo(id) {
+    downloadResource(imgs[id][2]['src']);
+}
+
+function forceDownload(blob, filename) {
+    var a = document.createElement('a');
+    a.download = filename;
+    a.href = blob;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+}
+
+function downloadResource(url, filename) {
+    if (!filename) filename = url.split('\\').pop().split('/').pop();
+    fetch(url, {
+        headers: new Headers({
+            'Origin': location.origin
+        }),
+        mode: 'cors'
+    })
+        .then(response => response.blob())
+        .then(blob => {
+            let blobUrl = window.URL.createObjectURL(blob);
+            forceDownload(blobUrl, filename);
+        })
+        .catch(e => console.error(e));
 }
