@@ -5,14 +5,7 @@ import glob
 import json
 
 
-def get_post_2(link):
-    m = re.search(r"instagram.com/p/[a-zA-Z0-9_-]{5,}", link)
-    if m:
-        short_code = m.group().split('/')[-1]
-    else:
-        return {'error': True}
-
-
+def load_photo_from_post(short_code):
     L = Instaloader(download_pictures=False, download_comments=False, compress_json=False, download_videos=True)
     try:
         post = Post.from_shortcode(L.context, short_code)
@@ -36,6 +29,16 @@ def get_post_2(link):
     response['status'] = 'ok'
     shutil.rmtree(short_code)
     return response
+
+
+def get_post_2(link):
+    m = re.search(r"instagram.com/p/[a-zA-Z0-9_-]{5,}", link)
+    if m:
+        short_code = m.group().split('/')[-1]
+    else:
+        return {'error': True}
+
+    return load_photo_from_post(short_code)
 
 
 def get_posts_by_username(username, size = (0, 50)):
@@ -62,6 +65,13 @@ def get_posts_by_username(username, size = (0, 50)):
         shutil.rmtree(profile.username)
 
     return {'list': response_ans, 'status': 'ok', 'owner': owner}
+
+def get_img_by_code(code):
+    return load_photo_from_post(code)
+
+
+# a = get_img_by_code("B9bfBuxlYWI")
+# print(a)
 
 # a = get_posts_by_username('who.is.irina')
 # print(a)

@@ -1,7 +1,7 @@
 import json
 
-from flask import Flask, render_template, request, jsonify
-from finder import get_post_2, get_posts_by_username
+from flask import Flask, render_template, request
+from finder import get_post_2, get_posts_by_username, get_img_by_code
 
 app = Flask(__name__)
 
@@ -28,6 +28,15 @@ def find_profile_by_link():
         return 'error'
     user_name = request.data.decode("utf-8")
     response = get_posts_by_username(user_name)
+    return json.dumps(response)
+
+
+@app.route('/get_all_posts', methods=['POST'])
+def get_all_photos():
+    if request.method != 'POST':
+        return 'error'
+    code = request.data.decode("utf-8")
+    response = get_img_by_code(code)
     return json.dumps(response)
 
 if __name__ == '__main__':

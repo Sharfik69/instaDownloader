@@ -3,6 +3,9 @@ $(document).ready(function(){
 
     let imgs = [];
     let imgs_user = [];
+    let model_img_list = [];
+    let showing = 0;
+
     $('.loading').hide();
     $('#div_load_profile').hide();
     $('.content_load').hide();
@@ -10,29 +13,17 @@ $(document).ready(function(){
 
     var modal = document.getElementById("myModal");
 
-// Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on the button, open the modal
-    btn.onclick = function() {
-        modal.style.display = "block";
-    }
-
-// When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-// When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
+            showing = 0;
         }
     }
 
+    $('#close_modal').click(function(){
+        modal.style.display = "none";
+        showing = 0;
+    });
 
     $( "#opener" ).on( "click", function() {
         $( "#dialog" ).dialog( "open" );
@@ -52,7 +43,6 @@ $(document).ready(function(){
         $('#div_load_post').hide();
         $('#div_load_profile').show();
     });
-
 
     $("#send_post_link").click(function(){
         $('.content_load').hide();
@@ -89,6 +79,7 @@ $(document).ready(function(){
                 contentType: 'application/json',
                 success: function(data, textStatus, jqXHR){
                     response = JSON.parse(data);
+                    console.log(response);
                     if (response['status'] === 'ok') {
                         put_data_user(response);
                     }
@@ -102,7 +93,7 @@ $(document).ready(function(){
                 complete: function(){
                     $('.loading').hide();
                 }
-            });
+        });
     });
     $(".download").click(function(){
         download(imgs[$(this).val()][2]['src']);
@@ -232,4 +223,53 @@ function downloadResource(url, filename) {
 function show_all_post(id) {
     $('#modal_img').attr('src', imgs_user[id]['img']);
     $('#myModal').css("display", "block");
+    model_img_list = [];
+    $('#loading_while_load').show();
+    $('#show_img').hide();
+    showing = 0;
+    $('#load_super_img').attr('onClick', 'download_by_modle(' + showing + ')');
+    $.ajax('/get_all_posts', {
+        type: 'POST',
+        data: imgs_user[id]['code'],
+        contentType: 'application/json',
+        success: function(data, textStatus, jqXHR){
+            response = JSON.parse(data);
+            console.log(response);
+            if (response['img'].length > 1) {
+                $('#need_arrow').show();
+            }
+            else {
+                $('#need_arrow').hide();
+            }
+
+            if (response['status'] === 'ok') {
+                model_img_list = response['img'];
+                showing = 0;
+                $('#modal_img').attr('src', model_img_list[showing][2]['src']);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            alert(errorThrown);
+        },
+        complete: function(){
+            $('#loading_while_load').hide();
+            $('#show_img').show();
+        }
+    });
+}
+
+function download_by_modle(id){
+    downloadResource(model_img_list[id][2]['src']);
+}
+
+function changeShowing(to){
+    showing += to;
+    if (showing == -1) {
+        showing = model_img_list.length - 1;
+    }
+    else if (showing == model_img_list.length) {
+        showing = 0;
+    }
+    $('#modal_img').attr('src', model_img_list[showing][2]['src']);
+    $('#load_super_img').attr('onClick', 'download_by_modle(' + showing + ')');
 }
