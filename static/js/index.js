@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
 
     let imgs = [];
@@ -7,6 +8,30 @@ $(document).ready(function(){
     $('.content_load').hide();
 
 
+    var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+// When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+// When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 
 
     $( "#opener" ).on( "click", function() {
@@ -113,8 +138,7 @@ function put_data_post(data) {
                     <div class="btn-group">
                       <button type="button" onclick="download_post_photo(${i})" class="btn btn-sm btn-outline-secondary download" value="${i}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5zM8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6z"/>
-</svg></button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Открыть</button>
+</svg>&nbsp;Скачать</button>
                     </div>
                   </div>
                 </div>
@@ -149,10 +173,10 @@ function put_data_user(data) {
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
+                      <button type="button" onclick="download_profile_photo(${i})" class="btn btn-sm btn-outline-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5zM8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6z"/>
 </svg></button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Открыть</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="show_all_post(${i})">Открыть</button>
                     </div>
                   </div>
                 </div>
@@ -174,6 +198,10 @@ function set_empty() {
 
 function download_post_photo(id) {
     downloadResource(imgs[id][2]['src']);
+}
+
+function download_profile_photo(id) {
+    downloadResource(imgs_user[id]['img']);
 }
 
 function forceDownload(blob, filename) {
@@ -199,4 +227,9 @@ function downloadResource(url, filename) {
             forceDownload(blobUrl, filename);
         })
         .catch(e => console.error(e));
+}
+
+function show_all_post(id) {
+    $('#modal_img').attr('src', imgs_user[id]['img']);
+    $('#myModal').css("display", "block");
 }
