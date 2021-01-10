@@ -6,33 +6,114 @@
 
 
 {% block main %}
-     <div class="header">
-        <h1>InstaDownloader</h1>
+<!--     <div class="header">-->
+<!--        <h1>InstaDownloader</h1>-->
+<!--    </div>-->
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <ul class="nav nav-tabs">
+                <li class="nav-item" id="btn_load_post">
+                    <a id="btn_post" class="nav-link active" href="#">Загрузить пост</a>
+                </li>
+                <li class="nav-item" id="btn_load_profile">
+                    <a id="btn_profile" class="nav-link" href="#">Загрузить из профиля</a>
+                </li>
+            </ul>
+            <div class="load_post" id="div_load_post">
+                <p class="lead">Вы можете скачать одну или всю серию фотографий из поста, для этого вставьте ссылку на пост:</p>
+
+                <div class="input-group mb-3">
+                    <input type="text" id="post_link" class="form-control" placeholder="instagram.com/p/kFDu3e2S/" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button id="send_post_link" class="btn btn-outline-success">Найти</button>
+                    </div>
+                </div>
+            </div>
+            <div class="load_profile" id="div_load_profile">
+
+                <!--            <label for="post_link"></label><input id="profile_link" name="profile_link" type="text" size="40" placeholder="Имя пользователя">-->
+
+<!--                <input id="profile_link" class="form-control form-control-lg" type="text" placeholder="Имя пользователя">-->
+
+
+
+
+                <p class="lead">По имени профиля мы загрузим все фотографии</p>
+
+                <div class="input-group mb-3">
+                    <input type="text" id="profile_link" class="form-control" placeholder="Имя пользователя" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button id="send_profile_link" class="btn btn-outline-success">Найти</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
+</section>
+
+
     <div class="selector">
-        <button value="asd" id="btn_load_post">Загрузить пост</button>
-        <button value="asd" id="btn_load_profile">Загрузить фотографии профиля</button>
-        <div class="load_post" id="div_load_post">
+<!--        <button value="asd" id="btn_load_post">Загрузить пост</button>-->
+<!--        <button value="asd" id="btn_load_profile">Загрузить фотографии профиля</button>-->
 
-            <label for="post_link"></label><input id="post_link" name="post_link" type="text" size="40" placeholder="instagram.com/p/kFDu3e2S/">
-            <button id="send_post_link">Отправить</button>
+<!--        <div class="load_post" id="div_load_post">-->
 
-        </div>
-        <div class="load_profile" id="div_load_profile">
+<!--&lt;!&ndash;            <label for="post_link"></label><input id="post_link" name="post_link" type="text" size="40" placeholder="instagram.com/p/kFDu3e2S/">&ndash;&gt;-->
+<!--            <form class="form-inline">-->
+<!--                <div class="form-row">-->
+<!--                    <div class="col-7">-->
+<!--                        <input id="post_link" class="form-control" type="text" placeholder="Ссылка на пост instagram.com/p/kFDu3e2S/">-->
+<!--                    </div>-->
 
-            <label for="post_link"></label><input id="profile_link" name="profile_link" type="text" size="40" placeholder="Имя пользователя">
-            <button id="send_profile_link">Отправить</button>
+<!--                    <div class="col-3">-->
+<!--                        <button id="send_post_link" class="form-control btn btn-outline-success">Найти</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <div class="load_profile" id="div_load_profile">-->
 
-        </div>
+<!--&lt;!&ndash;            <label for="post_link"></label><input id="profile_link" name="profile_link" type="text" size="40" placeholder="Имя пользователя">&ndash;&gt;-->
+
+<!--            <input id="profile_link" class="form-control form-control-lg" type="text" placeholder="Имя пользователя">-->
+
+<!--            <button id="send_profile_link">Найти</button>-->
+
+<!--        </div>-->
+
+
     </div>
 
     <div class="loading">
             <img src="{{ url_for('static', filename='svg-loaders/grid.svg') }}" />
     </div>
     <div class="content_load">
-        <p id="user_name"></p>
-        <img class="user_img" src="" alt="img">
-        <div class="user_photos"></div>
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="my-3 p-3 bg-white rounded shadow-sm">
+                    <h6 class="border-bottom pb-2 mb-0">Результат поиска</h6>
+                    <div class="d-flex text-muted pt-3">
+                        <img id="user_profile_photo" src="" class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32">
+                        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                        <div class="d-flex justify-content-between">
+                          <strong id="user_full_name" class="text-gray-dark">Full Name</strong>
+                        </div>
+                        <span class="d-block" id="user_name">@username</span>
+                      </div>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 user_photos">
+
+                    </div>
+<!--                    <div class="user_photos"></div>-->
+
+
+                </div>
+
+            </div>
+        </div>
     </div>
 {% endblock %}
 
