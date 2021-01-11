@@ -10,7 +10,7 @@
 <!--        <h1>InstaDownloader</h1>-->
 <!--    </div>-->
 
-<div id="myModal" class="modal">
+<div class="modal" id="myModal">
 
     <div class="modal-content">
         <div class="modal-body">
@@ -23,20 +23,30 @@
                 </div>
             </div>
             <div id="show_img">
-                <img src="" id="modal_img" class="photo-special card-img-top"  alt="error"/>
+                <img alt="error" class="photo-special card-img-top" id="modal_img" src=""/>
             </div>
         </div>
         <div class="modal-footer">
-            <button onclick="download_by_modle(0)" id="load_super_img" type="button" class="btn btn-sm btn-outline-dark">Скачать</button>
+            <button class="btn btn-sm btn-outline-dark" id="load_super_img" onclick="download_by_modle(0)"
+                    type="button">Скачать
+            </button>
             <div id="need_arrow">
-                <button onclick="changeShowing(-1)" type="button" class="btn btn-sm btn-outline-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-                </svg></button>
-                <button onclick="changeShowing(1)" type="button" class="btn btn-sm btn-outline-dark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                </svg></button>
+                <button class="btn btn-sm btn-outline-dark" onclick="changeShowing(-1)" type="button">
+                    <svg class="bi bi-arrow-left" fill="currentColor" height="16" viewBox="0 0 16 16"
+                         width="16" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
+                              fill-rule="evenodd"/>
+                    </svg>
+                </button>
+                <button class="btn btn-sm btn-outline-dark" onclick="changeShowing(1)" type="button">
+                    <svg class="bi bi-arrow-right" fill="currentColor" height="16" viewBox="0 0 16 16"
+                         width="16" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+                              fill-rule="evenodd"/>
+                    </svg>
+                </button>
             </div>
-            <button id="close_modal" type="button" class="btn btn-sm btn-outline-dark">Закрыть</button>
+            <button class="btn btn-sm btn-outline-dark" id="close_modal" type="button">Закрыть</button>
         </div>
     </div>
 
@@ -47,19 +57,21 @@
         <div class="col-lg-6 col-md-8 mx-auto">
             <ul class="nav nav-tabs">
                 <li class="nav-item" id="btn_load_post">
-                    <a id="btn_post" class="nav-link active" href="#">Загрузить пост</a>
+                    <a class="nav-link active" href="#" id="btn_post">Загрузить пост</a>
                 </li>
                 <li class="nav-item" id="btn_load_profile">
-                    <a id="btn_profile" class="nav-link" href="#">Загрузить из профиля</a>
+                    <a class="nav-link" href="#" id="btn_profile">Загрузить из профиля</a>
                 </li>
             </ul>
             <div class="load_post" id="div_load_post">
-                <p class="lead">Вы можете скачать одну или всю серию фотографий из поста, для этого вставьте ссылку на пост:</p>
+                <p class="lead">Вы можете скачать одну или всю серию фотографий из поста, для этого вставьте ссылку на
+                    пост:</p>
 
                 <div class="input-group mb-3">
-                    <input type="text" id="post_link" class="form-control" placeholder="instagram.com/p/kFDu3e2S/" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <input aria-describedby="basic-addon2" aria-label="Recipient's username" class="form-control" id="post_link"
+                           placeholder="instagram.com/p/kFDu3e2S/" type="text">
                     <div class="input-group-append">
-                        <button id="send_post_link" class="btn btn-outline-success">Найти</button>
+                        <button class="btn btn-outline-success" id="send_post_link">Найти</button>
                     </div>
                 </div>
             </div>
@@ -68,9 +80,10 @@
                 <p class="lead">По имени профиля мы загрузим фотографии из него и вы сможете выбрать нужные </p>
 
                 <div class="input-group mb-3">
-                    <input type="text" id="profile_link" class="form-control" placeholder="Имя пользователя" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <input aria-describedby="basic-addon2" aria-label="Recipient's username" class="form-control" id="profile_link"
+                           placeholder="Имя пользователя" type="text">
                     <div class="input-group-append">
-                        <button id="send_profile_link" class="btn btn-outline-success">Найти</button>
+                        <button class="btn btn-outline-success" id="send_profile_link">Найти</button>
                     </div>
                 </div>
 
@@ -80,9 +93,9 @@
 </section>
 
 
-    <div class="selector">
+<div class="selector">
 
-    </div>
+</div>
 
 
 <div class="loading">
@@ -94,8 +107,6 @@
 </div>
 
 
-
-
 <div class="content_load">
     <div class="album py-5 bg-light">
         <div class="container">
@@ -103,13 +114,14 @@
             <div class="my-3 p-3 bg-white rounded shadow-sm">
                 <h6 class="border-bottom pb-2 mb-0">Результат поиска</h6>
                 <div class="d-flex text-muted pt-3">
-                    <img id="user_profile_photo" src="" class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32">
+                    <img class="bd-placeholder-img flex-shrink-0 me-2 rounded" height="32" id="user_profile_photo" src=""
+                         width="32">
                     <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-                    <div class="d-flex justify-content-between">
-                      <strong id="user_full_name" class="text-gray-dark">Full Name</strong>
+                        <div class="d-flex justify-content-between">
+                            <strong class="text-gray-dark" id="user_full_name">Full Name</strong>
+                        </div>
+                        <span class="d-block" id="user_name">@username</span>
                     </div>
-                    <span class="d-block" id="user_name">@username</span>
-                  </div>
                 </div>
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 user_photos">

@@ -1,8 +1,9 @@
-from instaloader import Instaloader, Post, Profile
-import re
-import shutil
 import glob
 import json
+import re
+import shutil
+
+from instaloader import Instaloader, Post, Profile
 
 
 def load_photo_from_post(short_code):
@@ -41,7 +42,7 @@ def get_post_2(link):
     return load_photo_from_post(short_code)
 
 
-def get_posts_by_username(username, size = (0, 50)):
+def get_posts_by_username(username, size=(0, 50)):
     L = Instaloader(download_pictures=False, download_comments=False,
                     compress_json=False, download_videos=False,
                     download_geotags=False)
@@ -53,7 +54,7 @@ def get_posts_by_username(username, size = (0, 50)):
     response_ans = []
     posts_list = list(profile.get_posts())
     owner = None
-    for post in posts_list[size[0] : size[1]]:
+    for post in posts_list[size[0]: size[1]]:
         L.download_post(post, target=profile.username)
         with open(glob.glob(profile.username + "/*.json")[0]) as json_file:
             super_dict = json.load(json_file)
@@ -66,9 +67,9 @@ def get_posts_by_username(username, size = (0, 50)):
 
     return {'list': response_ans, 'status': 'ok', 'owner': owner}
 
+
 def get_img_by_code(code):
     return load_photo_from_post(code)
-
 
 # a = get_img_by_code("B9bfBuxlYWI")
 # print(a)
